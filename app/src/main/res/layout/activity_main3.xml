@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity3"
+    tools:ignore="ExtraText">
+
+    // MainActivity.kt
+    import android.content.Intent
+    import android.os.Bundle
+    import android.widget.ArrayAdapter
+    import android.widget.Button
+    import android.widget.ListView
+    import android.widget.TextView
+    import androidx.appcompat.app.AppCompatActivity
+
+    class MainActivity : AppCompatActivity() {
+
+    private val weatherData = arrayOf(
+    Weather("Monday", 20, 10, "Sunny"),
+    Weather("Tuesday", 22, 12, "Cloudy"),
+    Weather("Wednesday", 18, 8, "Rainy"),
+    Weather("Thursday", 24, 14, "Sunny"),
+    Weather("Friday", 26, 16, "Partly Cloudy"),
+    Weather("Saturday", 28, 18, "Sunny"),
+    Weather("Sunday", 30, 20, "Hot")
+    )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+
+    val lvWeather = findViewById<ListView>(R.id.lvWeather)
+    val tvAverageTemp = findViewById<TextView>(R.id.tvAverageTemp)
+    val btnDetail = findViewById<Button>(R.id.btnDetail)
+    val btnExit = findViewById<Button>(R.id.btnExit)
+
+    val weatherArrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, weatherData.map { it.day })
+    lvWeather.adapter = weatherArrayAdapter
+
+    val averageTemp = weatherData.map { it.maxTemp }.average()
+    tvAverageTemp.text = "Average Temperature: %.2f°C".format(averageTemp)
+
+    btnDetail.setOnClickListener {
+    val intent = Intent(this, DetailActivity::class.java)
+    startActivity(intent)
+    }
+
+    btnExit.setOnClickListener {
+    finish()
+    }
+    }
+    }
+
+
+
+</LinearLayout>
